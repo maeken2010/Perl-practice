@@ -3,7 +3,7 @@ use DDP;
 sub {
     my $env = shift;
 
-    if($env->{PATH_INFO} =~ m!^/([^/]+?)$!m) {
+    if($env->{PATH_INFO} =~ m!^/hello/([^/]+?)$!m) {
       return [
         '200',
         ['Content-Type' => 'text/plain'],
