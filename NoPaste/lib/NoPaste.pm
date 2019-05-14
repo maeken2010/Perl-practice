@@ -30,6 +30,15 @@ sub db {
     $c->{db};
 }
 
+sub handler {
+    my $c = shift;
+    if (!exists $c->{handler}) {
+        my ($dsn, $user, $pass, $opt) = @{$c->config->{dbi}};
+        $c->{handler} = DBIx::Handler->connect($dsn, $user, $pass, $opt);
+    }
+    $c->{handler};
+}
+
 1;
 __END__
 

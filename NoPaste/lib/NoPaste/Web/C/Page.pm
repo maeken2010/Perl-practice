@@ -1,7 +1,5 @@
 package NoPaste::Web::C::Page;
 
-use NoPaste::Repository::Text;
-
 sub get_root {
     my ($class, $c, $args) = @_;
 
@@ -15,8 +13,12 @@ sub get_id {
     my ($class, $c, $args) = @_;
     my $id = $args->{id};
 
-    my $text = NoPaste::Repository::Text->fetch_by_id($id)
-        or return $c->res_404;
+    my $row = $c->db->single('text_messages', {'id' => $id});
+    unless (defined $row) {
+      return $c->res_404;
+    }
+
+    my $text = $row->text;
 
     $c->fillin_form({text => $text});
     return $c->render('form.tx', {
@@ -31,7 +33,9 @@ sub post_root {
     my $text = $c->req->parameters->{text}
         or return $c->res_400;
 
-    my $id = NoPaste::Repository::Text->create($text);
+    my $id = $c->db->fast_insert(text_messages => {
+      text => $text
+    });
 
     return $c->redirect("/$id");
 }
@@ -41,9 +45,15 @@ sub post_id {
     my $id = $args->{id};
 
     my $text = $c->req->parameters->{text} or return $c->res_400;
-    my $old_text = NoPaste::Repository::Text->fetch_by_id($id) or return $c->res_404;
 
-    NoPaste::Repository::Text->update($id, $text);
+    my $row = $c->db->single('text_messages', {'id' => $id});
+    unless (defined $row) {
+      return $c->res_404;
+    }
+
+    $c->db->update(text_messages => {
+      text => $text
+    }, { id => $id });
 
     return $c->redirect("/$id");
 }

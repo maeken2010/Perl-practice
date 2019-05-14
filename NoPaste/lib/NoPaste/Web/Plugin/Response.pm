@@ -1,3 +1,4 @@
+package NoPaste::Web::Plugin::Response;
 use Amon2::Util ();
 
 sub init {
@@ -15,3 +16,4 @@ sub _render_error_json {
     $response->status($code);
     return $response;
 }
+1;
