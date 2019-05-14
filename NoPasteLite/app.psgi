@@ -2,6 +2,7 @@ use Encode qw/encode_utf8 decode_utf8/;
 use Data::Section::Simple qw/get_data_section/;
 use URI::Escape qw/uri_unescape/;
 use JSON qw/encode_json decode_json/;
+use HTML::Escape qw/escape_html/;
 use DDP;
 
 my $texts = ['this is a sample!'];
@@ -65,7 +66,7 @@ sub get_id {
   my $id = $args->{id};
   my $text = fetch_text($id);
   if (defined $text) {
-    return render_response(sprintf get_data_section('form.html'), "/$id", $text, 'update');
+    return render_response(sprintf get_data_section('form.html'), "/$id", escape_html($text), 'update');
   }
   return render_404();
 }
