@@ -1,0 +1,11 @@
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NoPaste</title>
+  </head>
+  <body>
+    <h1><a href="/">NoPaste</a></h1>
+    <hr>
+    <: block content -> { } :>
+  </body>
+</html>
