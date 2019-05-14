@@ -14,8 +14,7 @@ sub dispatch {
 # load plugins
 __PACKAGE__->load_plugins(
     'Web::FillInFormLite',
-    'Web::JSON',
-    '+NoPaste::Web::Plugin::Session',
+    'Web::JSON'
 );
 
 # setup view
